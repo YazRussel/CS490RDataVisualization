@@ -791,12 +791,12 @@ export default function Questionnaire() {
       question: task.question,
       selected: answer,
       correct: task.type === "single" ? answer === task.correct : null,
-      reactionTime: 30 - timeLeft
+      reactionTime: 60 - timeLeft
     };
 
     setResults(prev => [...prev, result]);
     setCurrentTask(prev => prev + 1);
-    setTimeLeft(30);
+    setTimeLeft(60);
   };
 
   const handleSingle = (option) => submitAnswer(option);
