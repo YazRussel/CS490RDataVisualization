@@ -67,7 +67,16 @@
 
   function getIso3(feature) {
     const p = feature.properties || {};
-    return (p.ISO_A3 || p.iso_a3 || p.ADM0_A3 || p.adm0_a3 || feature.id || "N/A");
+    // Some Natural Earth entries (e.g. France, Norway) have ISO_A3 = "-99".
+    // Fall back through several fields and skip the "-99" placeholder.
+    const candidates = [
+      p.ISO_A3, p.iso_a3, p.ISO_A3_EH,
+      p.ADM0_A3, p.adm0_a3, feature.id
+    ];
+    for (const c of candidates) {
+      if (c && c !== "-99") return c;
+    }
+    return "N/A";
   }
 
   function getCountFor(iso3, catKey) {
@@ -348,8 +357,10 @@
     if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
   });
 
+  // ne_50m gives Hong Kong its own polygon (HKG); ne_110m merges it into China.
+  // ne_50m also fixes ISO_A3_EH which correctly resolves France (FRA) etc.
   const WORLD_GEOJSON_URL =
-    "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
+    "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson";
 
   fetch(WORLD_GEOJSON_URL)
     .then(r => r.json())
