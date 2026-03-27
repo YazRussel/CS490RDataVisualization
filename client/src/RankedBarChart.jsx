@@ -371,7 +371,7 @@ export default function RankedBarChart() {
           }}
           config={{
             displayModeBar: true,
-            scrollZoom: true,
+            scrollZoom: false,
             displaylogo: false,
             responsive: true
           }}
