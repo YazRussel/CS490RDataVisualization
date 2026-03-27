@@ -365,6 +365,7 @@ export default function RankedBarChart() {
               automargin: true,
               fixedrange: false
             },
+            dragmode: "zoom",
             paper_bgcolor: "#ffffff",
             plot_bgcolor: "#ffffff",
             font: { family: "Inter, Arial", size: 14 }
